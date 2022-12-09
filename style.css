@@ -15,7 +15,9 @@ body {
     overflow: scroll;
     scrollbar-width: none;
 }
-
+#wrapper::-webkit-scrollbar {
+    display: none;
+}
 #dot {
     height: 20vh;
     width: 20vh;

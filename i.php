@@ -18,12 +18,12 @@ $file = $ID . "-" . $fileForUser;
 if ($file != null) {
     // headers to send your file
     header("Content-Type: application/jpeg");
-    header("Content-Length: " . filesize("placeholderFilePath" . $file));
+    header("Content-Length: " . filesize("//placeholder//" . $file));
     header('Content-Disposition: filename="' . $fileForUser . '"');
 
     // upload the file to the user and quit
     ob_clean();
     flush();
-    readfile("placeholderFilePath" . $file);
+    readfile("//placeholder//" . $file);
     #header('Location: https://dropthis.ml/u/'.$url);
 }

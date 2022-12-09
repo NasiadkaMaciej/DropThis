@@ -1,10 +1,3 @@
-document.onload = function () {
-	document.getElementById("passwordInput").autofocus;
-	document.getElementById("passwordInput").focus();
-	document.getElementById("passwordInput").click();
-};
-var timeoutTime = 0;
-
 var password = "";
 var lastTimeout = 0;
 
@@ -40,10 +33,10 @@ function returnColor() {
 	document.getElementById("dot").style.borderColor = "#000";
 	document.getElementById("dot").style.opacity = 0;
 }
-setTimeout("removeError()", 5000);
-function removeError() {
-	if (document.getElementById("error") != null)
+if (document.getElementById("error") != null) {
+	setTimeout(function removeError() {
 		document
 			.getElementById("error")
 			.parentNode.removeChild(document.getElementById("error"));
+	}, 5000);
 }

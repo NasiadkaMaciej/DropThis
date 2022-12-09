@@ -4,8 +4,8 @@
 #error_reporting(E_ALL);
 session_start();
 $server = "localhost";
-$login = $db = "dropthis";
-$password = "dropThisPassword";
+$login = $db = "placeholder";
+$password = "placeholder";
 $connection = new mysqli($server, $login, $password, $db);
 
 if (!isset($_SESSION["valid"])) {
@@ -29,7 +29,7 @@ if (isset($_FILES['uploadFile'])) {
 	for ($i = 0; $i < 6; $i++)
 		$ID .= $characters[rand(0, strlen($characters) - 1)];
 
-	move_uploaded_file($_FILES['uploadFile']['tmp_name'], 'placeholderFilePath' . $ID . "-" . $filename);
+	move_uploaded_file($_FILES['uploadFile']['tmp_name'], '//placeholder//' . $ID . "-" . $filename);
 
 	$stmt = $connection->prepare("INSERT INTO dropthis (ID, fileName) VALUES (?, ?)");
 	$stmt->bind_param('ss', $ID, $filename);
@@ -43,7 +43,7 @@ if (isset($_FILES['uploadFile'])) {
 	$stmt->execute();
 	$file = $stmt->get_result()->fetch_assoc()["fileName"];
 	if ($file != null) {
-		unlink("placeholderFilePath" . $_POST["deleteItem"] . "-" . $file);
+		unlink("//placeholder//" . $_POST["deleteItem"] . "-" . $file);
 		$stmt = $connection->prepare("DELETE FROM dropthis WHERE ID=?");
 		$stmt->bind_param('s', $_POST["deleteItem"]);
 		$stmt->execute();
@@ -61,9 +61,10 @@ if (isset($_FILES['uploadFile'])) {
 		$i++;
 	}
 	echo json_encode($arr);
-} else if (isset($_POST["logout"]))
+} else if (isset($_POST["logout"])) {
 	unset($_SESSION["valid"]);
-else {
+	unset($_POST["password"]);
+} else {
 	header("Location: /");
 	exit;
 }
