@@ -25,4 +25,5 @@ location ~ ^/f(.*)$ {
 }
 ```
 
-__After preparing, you must insert correct informaton into php files__
+__After preparing, you must insert correct informaton into php files__  
+I left "placeholder" in places where you need to change information
