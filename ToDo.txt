@@ -1,4 +1,3 @@
 Timeout for files 
-Block after x tries 
 Files to RAM 
 Check if there are lost relations (db - file, file - db)
