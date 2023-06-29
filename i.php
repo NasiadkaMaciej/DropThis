@@ -17,9 +17,9 @@ $file = $ID . "-" . $fileForUser;
 
 if ($file != null) {
     // headers to send your file
-    header("Content-Type: application/jpeg");
+    header("Content-Type: application/octet-stream"); 
     header("Content-Length: " . filesize("//placeholder//" . $file));
-    header('Content-Disposition: filename="' . $fileForUser . '"');
+    header('Content-Disposition: attachment; filename="' . $fileForUser . '"');
 
     // upload the file to the user and quit
     ob_clean();
