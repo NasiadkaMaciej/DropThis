@@ -3,29 +3,29 @@
 
 ![Website screenshot](https://nasiadka.pl/projects/DropThis/main.png)  
 
-Quick, simple and safe way to upload and download your files.  
-I reduced the number of required actions and input to a minimum.  
-You simply go onto website and enter password without clicking anything - voilà, you are ready to upload your files.  
-Drop them anywhere on the website or use prompt.  
-Files are uploaded automatically, and generated link to them is shown on the website.  
-Simply click on the filename to copy the link to it your clipboard.  
-Links are simply random strings, which are handled by a web server and PHP file to find files in DB and serve it to the user accordingly  
-If you no longer need the file, you can delete it on the website.  
-Project is in beta phase, but it will surely be developed!  
-[Have fun with sleek login screen](https://dropthis.ml/)
+## How to upload a file?
+1. Enter the password to access the website.
+2. Drag and drop your files anywhere on the website, or use the file upload prompt.
+3. Your files will be automatically uploaded, and a unique link will be generated for each file.
+4. Click on the filename to copy the link to your clipboard for easy sharing.
+
+
+[Have fun with sleek login screen](https://dropthis.tk/)
 
 ## Technical info
 
-To install your own instance you will need:
-- Database - You can import provided dropthis.sql file
+To install your own instance, you will need:
+- Database - You can import the provided dropthis.sql file
 - Database user
-- Folder outside root directory with www-data access
-- Web server configured to forward links, my nginx config looks like this (User always sees the nice short link):
+- Folder outside the root directory with www-data access
+- Web server configured to forward links. My nginx config looks like this (User always sees the nice short link):
 ```
 location ~ ^/f(.*)$ {
-    return 302 https://dropthis.ml/i?f=$1;
+    return 302 https://dropthis.tk/i?f=$1;
 }
 ```
 
-__After preparing, you must insert correct info into files__  
-I left "placeholder" in places where you need to change information
+__After preparing, you must insert the correct information into the config.php file__  
+
+I recommend setting up fail2ban to detect the 403 error that is being shown after a few failed login attempts.
+

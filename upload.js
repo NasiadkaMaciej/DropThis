@@ -70,7 +70,7 @@ function generateOutput(res) {
 	div.appendChild(a);
 
 	rm = document.createElement("a");
-	rm.innerHTML = " [-]";
+	rm.innerHTML = "[-]";
 	rm.setAttribute("href", "#");
 	rm.setAttribute("onclick", 'removeFile("' + fileLink + '")');
 	div.appendChild(rm);
@@ -78,7 +78,7 @@ function generateOutput(res) {
 }
 
 function copyToClipboard(item) {
-	navigator.clipboard.writeText("https://placeholder.placeholder/f" + item);
+	navigator.clipboard.writeText("https://dropthis.tk/f" + item);
 }
 
 function removeFile(item) {
@@ -100,7 +100,7 @@ function logout() {
 	var form_data = new FormData();
 	form_data.append("logout", true);
 	var xhttp = new XMLHttpRequest();
-	xhttp.open("POST", "ajax.php", true);
+	xhttp.open("POST", "index.php", true);
 	xhttp.onload = function (event) {
 		if (xhttp.status == 200) window.location = window.location;
 		else

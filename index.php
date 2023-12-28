@@ -17,14 +17,24 @@
 </head>
 <?php
 session_start();
+include("config.php");
+if (isset($_POST["logout"])) {
+    // Unset specific session variables
+    unset($_SESSION["valid"]);
+    unset($_POST["password"]);
+    session_destroy();
+    header("Location: /");
+    exit;
+}
+
 if (isset($_POST["password"]) || isset($_SESSION["valid"])) {
-	if ($_POST["password"] == "placeholder" || isset($_SESSION["valid"])){
+	if ($_POST["password"] == $PASSWORD || isset($_SESSION["valid"])) {
 		$_SESSION['valid'] = true;
 		include("upload.php");
 	} else {
 		echo "<p id=error style='color: red;'>WRONG</p>";
-		if ($_SESSION['errCount'] > 2){
-			header("Location: https://placeholder.placeholder/403");
+		if ($_SESSION['errCount'] > 2) {
+			header("Location: " . "403");
 			exit();
 		}
 		$_SESSION['errCount'] += 1;

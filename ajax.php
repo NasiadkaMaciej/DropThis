@@ -3,10 +3,8 @@
 #ini_set('display_startup_errors', 1);
 #error_reporting(E_ALL);
 session_start();
-$server = "localhost";
-$login = $db = "placeholder";
-$password = "placeholder";
-$connection = new mysqli($server, $login, $password, $db);
+include("config.php");
+$connection = new mysqli($DB_SERVER, $DB_USERNAME, $DB_PASSWORD, $DB_NAME);
 
 if (!isset($_SESSION["valid"])) {
 	header("Location: /");
@@ -29,7 +27,7 @@ if (isset($_FILES['uploadFile'])) {
 	for ($i = 0; $i < 6; $i++)
 		$ID .= $characters[rand(0, strlen($characters) - 1)];
 
-	move_uploaded_file($_FILES['uploadFile']['tmp_name'], '//placeholder//' . $ID . "-" . $filename);
+	move_uploaded_file($_FILES['uploadFile']['tmp_name'], $STORAGE . $ID . "-" . $filename);
 
 	$stmt = $connection->prepare("INSERT INTO dropthis (ID, fileName) VALUES (?, ?)");
 	$stmt->bind_param('ss', $ID, $filename);
@@ -38,12 +36,17 @@ if (isset($_FILES['uploadFile'])) {
 } else if (isset($_POST["deleteItem"])) {
 	//If file exists, proceed to remove it.
 	//If not, return 500
+	if (!preg_match('/^[a-zA-Z0-9]{6}$/', $_POST["deleteItem"])) {
+		// Handle invalid input
+		http_response_code(400); // Bad Request
+		exit;
+	}
 	$stmt = $connection->prepare("SELECT * FROM dropthis WHERE ID=? limit 1");
 	$stmt->bind_param('s', $_POST["deleteItem"]);
 	$stmt->execute();
 	$file = $stmt->get_result()->fetch_assoc()["fileName"];
 	if ($file != null) {
-		unlink("//placeholder//" . $_POST["deleteItem"] . "-" . $file);
+		unlink($STORAGE . $_POST["deleteItem"] . "-" . $file);
 		$stmt = $connection->prepare("DELETE FROM dropthis WHERE ID=?");
 		$stmt->bind_param('s', $_POST["deleteItem"]);
 		$stmt->execute();
@@ -52,8 +55,9 @@ if (isset($_FILES['uploadFile'])) {
 	echo $file;
 } else if (isset($_POST["getData"])) {
 	//Get JSON with all files
-	$query = "SELECT ID, fileName FROM dropthis ORDER BY Date";
-	$result = $connection->query($query);
+	$stmt = $connection->prepare("SELECT ID, fileName FROM dropthis ORDER BY Date");
+	$stmt->execute();
+	$result = $stmt->get_result();
 	$arr = [[]];
 	$i = 0;
 	while ($line = $result->fetch_assoc()) {
@@ -61,9 +65,6 @@ if (isset($_FILES['uploadFile'])) {
 		$i++;
 	}
 	echo json_encode($arr);
-} else if (isset($_POST["logout"])) {
-	unset($_SESSION["valid"]);
-	unset($_POST["password"]);
 } else {
 	header("Location: /");
 	exit;
