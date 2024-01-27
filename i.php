@@ -1,8 +1,5 @@
 <?php
 session_start();
-ini_set('display_errors', 1);
-ini_set('display_startup_errors', 1);
-error_reporting(E_ALL);
 $ID = $_GET["f"];
 include("config.php");
 $connection = new mysqli($DB_SERVER, $DB_USERNAME, $DB_PASSWORD, $DB_NAME);
@@ -12,7 +9,16 @@ $stmt->execute();
 $fileForUser = $stmt->get_result()->fetch_assoc()["fileName"];
 $file = $ID . "-" . $fileForUser;
 
+if (!$fileForUser ) {
+    echo "File not found";
+    die();
+}
+
 if ($file != null) {
+    if (!file_exists($STORAGE . $file)){
+        echo "File not found";
+        die();
+    }
     // headers to send your file
     header("Content-Type: application/octet-stream"); 
     header("Content-Length: " . filesize($STORAGE . $file));
