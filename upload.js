@@ -78,7 +78,7 @@ function generateOutput(res) {
 }
 
 function copyToClipboard(item) {
-	navigator.clipboard.writeText("https://dropthis.tk/f" + item);
+	navigator.clipboard.writeText("https://drop.nasiadka.pl/f" + item);
 }
 
 function removeFile(item) {

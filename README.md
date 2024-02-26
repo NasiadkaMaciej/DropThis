@@ -10,7 +10,7 @@
 4. Click on the filename to copy the link to your clipboard for easy sharing.
 
 
-[Have fun with sleek login screen](https://dropthis.tk/)
+[Have fun with sleek login screen](https://drop.nasiadka.pl/)
 
 ## Technical info
 
@@ -21,7 +21,7 @@ To install your own instance, you will need:
 - Web server configured to forward links. My nginx config looks like this (User always sees the nice short link):
 ```
 location ~ ^/f(.*)$ {
-    return 302 https://dropthis.tk/i?f=$1;
+    return 302 https://drop.nasiadka.pl/i?f=$1;
 }
 ```
 
