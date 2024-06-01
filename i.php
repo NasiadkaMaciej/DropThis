@@ -10,13 +10,15 @@ $fileForUser = $stmt->get_result()->fetch_assoc()["fileName"];
 $file = $ID . "-" . $fileForUser;
 
 if (!$fileForUser ) {
-    echo "File not found";
+//  echo "File not found";
+    header('Location: https://drop.nasiadka.pl/404');
     die();
 }
 
 if ($file != null) {
     if (!file_exists($STORAGE . $file)){
-        echo "File not found";
+//      echo "File not found";
+	header('Location: https://drop.nasiadka.pl/404');
         die();
     }
     // headers to send your file
@@ -28,5 +30,5 @@ if ($file != null) {
     ob_clean();
     flush();
     readfile($STORAGE . $file);
-    #header('Location: https://dropthis.ml/u/'.$url);
+    //header('Location: https://dropthis.ml/u/'.$url);
 }
