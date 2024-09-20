@@ -20,6 +20,7 @@ if (isset($_FILES['uploadFile'])) {
 	//Move file to storage
 	//Upload ID and file name to database
 	$filename = $_FILES['uploadFile']['name'];
+	$oneTime = $_POST['oneTime'];
 	$filename = urldecode($filename);
 
 	$characters = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
@@ -29,8 +30,8 @@ if (isset($_FILES['uploadFile'])) {
 
 	move_uploaded_file($_FILES['uploadFile']['tmp_name'], $STORAGE . $ID . "-" . $filename);
 
-	$stmt = $connection->prepare("INSERT INTO dropthis (ID, fileName) VALUES (?, ?)");
-	$stmt->bind_param('ss', $ID, $filename);
+	$stmt = $connection->prepare("INSERT INTO dropthis (ID, fileName, oneTime) VALUES (?, ?, ?)");
+	$stmt->bind_param('ssi', $ID, $filename, $oneTime);
 	$stmt->execute();
 	echo json_encode(array($_FILES['uploadFile']['name'], $ID));
 } else if (isset($_POST["deleteItem"])) {
@@ -55,13 +56,13 @@ if (isset($_FILES['uploadFile'])) {
 	echo $file;
 } else if (isset($_POST["getData"])) {
 	//Get JSON with all files
-	$stmt = $connection->prepare("SELECT ID, fileName FROM dropthis ORDER BY Date");
+	$stmt = $connection->prepare("SELECT ID, fileName, oneTime FROM dropthis ORDER BY Date");
 	$stmt->execute();
 	$result = $stmt->get_result();
-	$arr = [[]];
+	$arr = [];
 	$i = 0;
 	while ($line = $result->fetch_assoc()) {
-		$arr[$i] = [$line["fileName"], $line["ID"]];
+		$arr[$i] = [$line["fileName"], $line["ID"], $line["oneTime"]];
 		$i++;
 	}
 	echo json_encode($arr);

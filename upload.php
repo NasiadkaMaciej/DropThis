@@ -12,6 +12,8 @@ if (!isset($_SESSION["valid"])) {
 		<p>Drop file anywhere</p>
 		<p>or</p>
 		<p><input type="button" value="Select Files" onclick="file_explorer();"></p>
-		<input type="file" multiple id="selectfile">
+		<input type="file" multiple id="selectfile"><br>
+		<label for="onetime">One-time download?</label>
+		<input type="checkbox" name="onetime" id="onetime">
 		<p id="response">
 		</p>
